@@ -4,7 +4,7 @@ import Home from "routes/Home";
 import Profile from "routes/Profile";
 import Navigation from "./Navigation";
 
-const AppRouter = ({ isLoggedIn }) => {
+const AppRouter = ({ isLoggedIn, userObj }) => {
   return (
     <Routes>
       {isLoggedIn ? (
@@ -14,7 +14,7 @@ const AppRouter = ({ isLoggedIn }) => {
             element={
               <div>
                 <Navigation />
-                <Home />
+                <Home userObj={userObj} />
               </div>
             }
           />
