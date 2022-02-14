@@ -1,5 +1,6 @@
 import { deleteDoc, doc, updateDoc } from "@firebase/firestore";
-import { dbService } from "fbase";
+import { deleteObject, ref } from "@firebase/storage";
+import { dbService, storageService } from "fbase";
 import React, { useState } from "react";
 
 const Hwit = ({ hwitObj, isOwner }) => {
@@ -10,10 +11,11 @@ const Hwit = ({ hwitObj, isOwner }) => {
     const deleteOk = window.confirm(
       "Are you sure you want to delete this hwit"
     );
-    console.log(deleteOk);
+    // console.log(deleteOk);
     if (deleteOk) {
       // delete
       await deleteDoc(doc(dbService, `hwits/${hwitObj.id}`));
+      await deleteObject(ref(storageService, hwitObj.attachmentUrl));
     }
   };
   const toggleEditing = () => {
@@ -53,6 +55,9 @@ const Hwit = ({ hwitObj, isOwner }) => {
       ) : (
         <div>
           <h4>{hwitObj.text}</h4>
+          {hwitObj.attachmentUrl && (
+            <img src={hwitObj.attachmentUrl} width="50px" height="50px" />
+          )}
           {isOwner && (
             <div>
               <button onClick={onDeleteClick}>Delete Me</button>
