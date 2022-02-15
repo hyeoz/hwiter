@@ -1,5 +1,7 @@
 import { deleteDoc, doc, updateDoc } from "@firebase/firestore";
 import { deleteObject, ref } from "@firebase/storage";
+import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { dbService, storageService } from "fbase";
 import React, { useState } from "react";
 
@@ -35,33 +37,42 @@ const Hwit = ({ hwitObj, isOwner }) => {
     } = e;
     setNewHwit(value);
   };
+  // console.log(hwitObj);
 
   return (
-    <div>
+    <div className="hwit">
       {editing ? (
         <div>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit} className="container hwitEdit">
             <input
               type="text"
               placeholder="Edit your hwit"
               value={newHwit}
               required
+              autoFocus
               onChange={onChange}
+              className="formInput"
             />
-            <input type="submit" value="Update hwit!" />
+            <input type="submit" value="Update hwit!" className="formBtn" />
           </form>
-          <button onClick={toggleEditing}>Cancel</button>
+          <button onClick={toggleEditing} className="formBtn cancelBtn">
+            Cancel
+          </button>
         </div>
       ) : (
         <div>
           <h4>{hwitObj.text}</h4>
           {hwitObj.attachmentUrl && (
-            <img src={hwitObj.attachmentUrl} width="50px" height="50px" />
+            <img src={hwitObj.attachmentUrl} alt="Image_Here" />
           )}
           {isOwner && (
-            <div>
-              <button onClick={onDeleteClick}>Delete Me</button>
-              <button onClick={toggleEditing}>Edit Me</button>
+            <div className="hwit__actions">
+              <button onClick={onDeleteClick}>
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+              <button onClick={toggleEditing}>
+                <FontAwesomeIcon icon={faPencilAlt} />
+              </button>
             </div>
           )}
         </div>
